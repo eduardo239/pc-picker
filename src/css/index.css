@@ -63,9 +63,10 @@ button {
   padding: 8px;
   border: 1px solid #aaa;
   outline: 1px solid #000000;
-  background-color: #4f9142;
+  background-color: #46753d;
   color: #eee;
   min-width: 300px;
+  cursor: pointer;
 }
 
 .part-item {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import InputText from '../components/form/InputText';
 import { addPart } from '../helper/api_parts';
 import InputSelect from '../components/form/InputSelect';
+import { PROCESSOR } from '../helper/constants';
 
 const AddPart = () => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,7 @@ const AddPart = () => {
     frequencyTurbo: '4.9 GHz',
     cores: '16',
     threads: '32',
+    query: PROCESSOR,
   });
 
   const [file, setFile] = useState(null);
@@ -55,7 +57,7 @@ const AddPart = () => {
           label='Socket do processador'
           onChange={(e) => setData({ ...data, socket: e.target.value })}
           items={['AM4', 'AM5', 'LGA 1200']}
-        ></InputSelect>
+        />
 
         <InputText
           id='type'

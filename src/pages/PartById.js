@@ -1,33 +1,42 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deletePartById, getPartById } from '../helper/api_parts';
 
 const PartById = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+
   const [data, setData] = useState(null);
 
+  let search = useLocation().search;
+  const type = new URLSearchParams(search).get('type');
+  const id = new URLSearchParams(search).get('id');
+
   const handleDeletePart = async () => {
-    await deletePartById(data.id);
+    await deletePartById(id, type);
     navigate('/parts');
   };
 
   useEffect(() => {
     (async function loadBooks() {
-      const bookById = await getPartById(id);
-      setData(bookById);
+      const part = await getPartById(id, type);
+      setData(part);
     })();
     return () => {};
-  }, [id]);
+  }, [id, type]);
 
   if (data)
     return (
       <div>
+        {JSON.stringify(data)}
+
         <h2>Part</h2>
         <div>
           <p>{data.title}</p>
-          <span>{data.manufacturer}</span> | <span>{data.speed}</span> |{' '}
-          <span>{data.type}</span>
+          {data.manufacturer && <p>Fabricante: {data.manufacturer}</p>}
+          {data.speed && <p>Velocidade: {data.speed}</p>}
+          {data.type && <p>Tipo: {data.type}</p>}
+          {data.model && <p>Modelo: {data.model}</p>}
+          {data.socket && <p>Socket: {data.socket}</p>}
         </div>
 
         <button onClick={handleDeletePart}>delete</button>

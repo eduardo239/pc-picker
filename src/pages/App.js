@@ -44,7 +44,8 @@ const App = () => {
         <Route exact path='/' element={<HomePage />} />
         <Route exact path='/add' element={<AddParts />} />
         <Route exact path='/parts' element={<AllParts />} />
-        <Route exact path='/parts/:id' element={<PartById />} />
+        <Route exact path='/part' element={<PartById />} />
+
         <Route exact path='/sign' element={<SignIn />} />
         <Route path='*' element={<NotFound />} />
       </Routes>

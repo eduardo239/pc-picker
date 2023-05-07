@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import InputText from '../components/form/InputText';
 import { addPart } from '../helper/api_parts';
+import { MOTHERBOARD } from '../helper/constants';
 
 const AddPart = () => {
   const [loading, setLoading] = useState(false);
@@ -10,6 +11,7 @@ const AddPart = () => {
     manufacturer: 'Gigabyte',
     model: 'B550M Aorus',
     socket: 'AM4',
+    query: MOTHERBOARD,
   });
 
   const [file, setFile] = useState(null);

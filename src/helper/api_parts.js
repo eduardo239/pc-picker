@@ -14,7 +14,9 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { db, storage } from '../config/firebase';
 import { MOTHERBOARD, PROCESSOR, RAM_MEMORY } from './constants';
 
-const collectionParts = collection(db, 'parts');
+const collectionMBParts = collection(db, MOTHERBOARD);
+const collectionCPUParts = collection(db, PROCESSOR);
+const collectionRAMParts = collection(db, RAM_MEMORY);
 
 export const addPart = async (e, file, item, setLoading, setError, type) => {
   e.preventDefault();
@@ -39,16 +41,16 @@ export const saveNewPart = async (posterURL = '', item, type) => {
     // validar o tipo de part
     if (type === RAM_MEMORY) {
       const collectionRAMParts = collection(db, RAM_MEMORY);
+      // eslint-disable-next-line no-unused-vars
       const docRef = await addDoc(collectionRAMParts, payload);
-      console.log(docRef);
     } else if (type === MOTHERBOARD) {
       const collectionMBParts = collection(db, MOTHERBOARD);
+      // eslint-disable-next-line no-unused-vars
       const docRef = await addDoc(collectionMBParts, payload);
-      console.log(docRef);
     } else if (type === PROCESSOR) {
       const collectionCPUParts = collection(db, PROCESSOR);
+      // eslint-disable-next-line no-unused-vars
       const docRef = await addDoc(collectionCPUParts, payload);
-      console.log(docRef);
     }
   } catch (error) {
     console.log(error.message);
@@ -103,29 +105,44 @@ export const handleUploadFileAndSave = async (file, book, type) => {
   );
 };
 
-export const getAllParts = async () => {
-  ///
-  const qPages = query(
-    collectionParts,
-    orderBy('createdAt', 'desc'),
-    limit(30)
-  );
+export const getAllParts = async (type) => {
   try {
-    const docBooks = await getDocs(qPages);
+    let qPages = [];
 
-    const bookList = [];
+    if (type === MOTHERBOARD) {
+      qPages = query(
+        collectionMBParts,
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    } else if (type === RAM_MEMORY) {
+      qPages = query(
+        collectionRAMParts,
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    } else if (type === PROCESSOR) {
+      qPages = query(
+        collectionCPUParts,
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    }
+
+    const docBooks = await getDocs(qPages);
+    const partsList = [];
     docBooks.forEach((item) => {
-      bookList.push({ ...item.data(), id: item.id });
+      partsList.push({ ...item.data(), id: item.id });
     });
 
-    return bookList;
+    return partsList;
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const getPartById = async (id) => {
-  const docRef = doc(db, 'parts', id);
+export const getPartById = async (id, type) => {
+  const docRef = doc(db, type, id);
   const docSnap = await getDoc(docRef);
 
   try {
@@ -137,13 +154,26 @@ export const getPartById = async (id) => {
   }
 };
 
-export const deletePartById = async (id) => {
-  const docRef = doc(db, 'parts', id);
-  const docSnap = await deleteDoc(docRef);
-  console.log(docSnap);
+export const deletePartById = async (id, type) => {
   try {
-    if (docSnap.exists) {
-      return { ...docSnap.data(), id: docSnap.id };
+    if (type === MOTHERBOARD) {
+      const docRef = doc(db, MOTHERBOARD, id);
+      const docSnap = await deleteDoc(docRef);
+      if (docSnap.exists) {
+        return { ...docSnap.data(), id: docSnap.id };
+      }
+    } else if (type === RAM_MEMORY) {
+      const docRef = doc(db, RAM_MEMORY, id);
+      const docSnap = await deleteDoc(docRef);
+      if (docSnap.exists) {
+        return { ...docSnap.data(), id: docSnap.id };
+      }
+    } else if (type === PROCESSOR) {
+      const docRef = doc(db, PROCESSOR, id);
+      const docSnap = await deleteDoc(docRef);
+      if (docSnap.exists) {
+        return { ...docSnap.data(), id: docSnap.id };
+      }
     }
   } catch (error) {
     console.log(error.message);

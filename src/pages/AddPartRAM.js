@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import InputText from '../components/form/InputText';
 import { addPart } from '../helper/api_parts';
+import { RAM_MEMORY } from '../helper/constants';
 
 const AddPart = () => {
   const [loading, setLoading] = useState(false);
@@ -10,6 +11,7 @@ const AddPart = () => {
     manufacturer: 'Kingston',
     type: '288-pin DIMM',
     speed: 'DDR4-3200',
+    query: RAM_MEMORY,
   });
 
   const [file, setFile] = useState(null);
