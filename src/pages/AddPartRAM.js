@@ -4,7 +4,9 @@ import { addPart } from '../helper/api_parts';
 import { RAM_MEMORY } from '../helper/constants';
 
 const AddPart = () => {
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
   const [data, setData] = useState({
     title: 'Memoria Ram Kingston',
@@ -15,8 +17,10 @@ const AddPart = () => {
   });
 
   const [file, setFile] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [image, setImage] = useState(null);
 
+  // eslint-disable-next-line no-unused-vars
   const handleImageOnChange = (e) => {
     if (e.target.files[0]) {
       setImage(URL.createObjectURL(e.target.files[0]));

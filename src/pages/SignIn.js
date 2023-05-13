@@ -7,9 +7,12 @@ import { UserContext } from '../hooks/UserContext';
 import InputText from '../components/form/InputText';
 
 const SignIn = () => {
+  // eslint-disable-next-line no-unused-vars
   const { user, setUser } = useContext(UserContext);
 
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
   const [data, setData] = useState(null);
 

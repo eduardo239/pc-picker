@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { deletePartById, getPartById } from '../helper/api_parts';
 
 const PartById = () => {
@@ -21,7 +21,7 @@ const PartById = () => {
       const part = await getPartById(id, type);
       setData(part);
     })();
-    return () => {};
+    return () => { };
   }, [id, type]);
 
   if (data)

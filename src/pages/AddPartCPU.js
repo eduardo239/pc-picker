@@ -5,7 +5,9 @@ import InputSelect from '../components/form/InputSelect';
 import { PROCESSOR } from '../helper/constants';
 
 const AddPart = () => {
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
   const [data, setData] = useState({
     title: 'Processador AMD Ryzen 9 5950X 3.4 GHz 16-Core',
@@ -20,8 +22,10 @@ const AddPart = () => {
   });
 
   const [file, setFile] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [image, setImage] = useState(null);
 
+  // eslint-disable-next-line no-unused-vars
   const handleImageOnChange = (e) => {
     if (e.target.files[0]) {
       setImage(URL.createObjectURL(e.target.files[0]));

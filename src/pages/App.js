@@ -11,6 +11,7 @@ import SignIn from './SignIn';
 import NotFound from './NotFound';
 
 const App = () => {
+  // eslint-disable-next-line no-unused-vars
   const { user, setUser } = useContext(UserContext);
   const auth = getAuth();
 

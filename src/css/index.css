@@ -51,7 +51,7 @@ input,
 select {
   padding: 8px;
   border: 1px solid #aaa;
-  min-width: 300px;
+
 }
 
 .form-field label {
@@ -65,7 +65,7 @@ button {
   outline: 1px solid #000000;
   background-color: #46753d;
   color: #eee;
-  min-width: 300px;
+
   cursor: pointer;
 }
 
@@ -122,4 +122,15 @@ small,
 .flex {
   display: flex;
   flex-wrap: wrap;
+}
+
+.input-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-checkbox input {
+  width: 20px;
+  height: 20px;
 }
