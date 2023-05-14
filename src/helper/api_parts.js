@@ -181,8 +181,8 @@ export const deletePartById = async (id, type) => {
   }
 };
 
-export const getPartByCustomFields = async (payload) => {
-  const q = query(collectionCPUParts, where("socket", "==", "AM5"));
+export const getPartByCustomFields = async (list) => {
+  const q = query(collectionCPUParts, where("socket", "in", list));
   const docSnap = await getDocs(q);
 
   const resultList = [];
@@ -192,6 +192,7 @@ export const getPartByCustomFields = async (payload) => {
         // doc.data() is never undefined for query doc snapshots
         resultList.push({ ...doc.data(), id: doc.id });
       });
+
       return resultList;
     }
   } catch (error) {

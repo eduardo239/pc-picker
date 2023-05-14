@@ -1,14 +1,15 @@
 const GroupCheckbox = ({
-  checkedList,
-  setCheckedList,
+  selectedFields,
+  setSelectedFields,
   list = [],
   label = "",
 }) => {
-  const handleAddItem = (item) => {
-    if (checkedList.includes(item)) {
-      setCheckedList(checkedList.filter((i) => i !== item));
+  const handleChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      setSelectedFields([...selectedFields, value]);
     } else {
-      setCheckedList([...checkedList, item]);
+      setSelectedFields(selectedFields.filter((field) => field !== value));
     }
   };
 
@@ -22,8 +23,8 @@ const GroupCheckbox = ({
               type="checkbox"
               name={item.id}
               id={item.id}
-              value={item.id}
-              onChange={(v) => handleAddItem(v.target.value)}
+              value={item.name}
+              onChange={handleChange}
             />
 
             <label htmlFor={item.id}>{item.name}</label>

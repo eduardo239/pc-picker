@@ -9,8 +9,7 @@ import GroupCheckbox from "../components/form/GroupCheckbox";
 import { processorByManufacturer, processorBySocket } from "../helper/lists";
 
 const AllParts = () => {
-  const [data, setData] = useState(null);
-  const [result, setResult] = useState([]);
+  const [data, setData] = useState([]);
 
   const [manufacturerList, setManufacturerList] = useState([]);
   const [socketList, setSocketList] = useState([]);
@@ -18,19 +17,22 @@ const AllParts = () => {
   let search = useLocation().search;
   const type = new URLSearchParams(search).get("type");
 
-  const handleQueryBy = async () => {
-    const query = await getPartByCustomFields("AMD");
-    setResult(query);
-  };
-
   useEffect(() => {
-    (async function loadParts() {
-      const response = await getAllParts(type);
-      setData(response);
-    })();
-
+    if (data.length === 0) {
+      (async function loadAllData() {
+        const response = await getAllParts(type);
+        setData(response ? response : []);
+      })();
+    } else {
+      (async function loadData() {
+        if (socketList.length > 0 || manufacturerList.length > 0) {
+          const response = await getPartByCustomFields(socketList);
+          console.log(response);
+        }
+      })();
+    }
     return () => {};
-  }, [type]);
+  }, [type, manufacturerList, socketList]);
 
   return (
     <div className="flex">
@@ -38,32 +40,25 @@ const AllParts = () => {
         <InputSearch placeholder="Busca" />
         <button>Buscar</button>
 
-        {/* * * * */}
-        <div onChange={handleQueryBy}>
+        <div>
           <GroupCheckbox
             label="Fabricante"
             list={processorByManufacturer}
-            checkedList={manufacturerList}
-            setCheckedList={setManufacturerList}
+            selectedFields={manufacturerList}
+            setSelectedFields={setManufacturerList}
           />
 
           <GroupCheckbox
             label="Socket"
             list={processorBySocket}
-            checkedList={socketList}
-            setCheckedList={setSocketList}
+            selectedFields={socketList}
+            setSelectedFields={setSocketList}
           />
         </div>
       </div>
 
-      <div className="topping">
-        <input type="checkbox" id="topping" name="topping" value="Paneer" />
-        Paneer
-      </div>
-
-      {/* * * * */}
       <div>
-        <h2>All Parts</h2>
+        <h2>Peças: {type ? type : ""}</h2>
         <div>
           <Link to={`/parts?type=${PROCESSOR}`}>Processador</Link>{" "}
           <Link to={`/parts?type=${MOTHERBOARD}`}>PLaca-Mãe</Link>{" "}
@@ -71,23 +66,15 @@ const AllParts = () => {
         </div>
 
         <br />
-        {result.length}
-        {result.length === 0 && (
-          <div>
-            {data &&
-              data.length > 0 &&
-              data.map((item) => {
-                return <PartItem key={item.id} data={item} />;
-              })}
-          </div>
-        )}
 
         <div>
-          {result &&
-            result.length > 0 &&
+          {data && data.length > 0 ? (
             data.map((item) => {
               return <PartItem key={item.id} data={item} />;
-            })}
+            })
+          ) : (
+            <div>Resultados não encontrados.</div>
+          )}
         </div>
       </div>
     </div>
